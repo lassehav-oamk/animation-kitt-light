@@ -1,0 +1,82 @@
+<!doctype html>
+<head>
+  <title></title>
+  <meta name="description" content="">
+
+  <!-- Mobile viewport optimized: h5bp.com/viewport -->
+  <meta name="viewport" content="width=device-width">
+
+  <link rel="stylesheet" href="style.css">
+
+   <script src="jquery-1.8.2.min.js"></script>
+  <script>
+
+	var lightIndex = 0;
+
+	var toRedTime = 50;
+	var toBlackTime = 150;
+
+	var snd = new Audio("kittscanner.wav"); // buffers automatically when created
+
+	$(document).ready(function(){
+		var current = $("#container").children().last();
+		current.css("background-color", "red");
+
+		window.setTimeout(toRed, toRedTime, current, -1);
+		window.setTimeout(toBlack, toBlackTime, current);
+		snd.play();
+
+	});
+
+	function toRed(prevElement, direction)
+	{
+		var newDirection = direction;
+		if(direction == -1)
+		{
+			var current = prevElement.prev();
+		}
+		else
+		{
+			var current = prevElement.next();
+		}
+
+		if(current.length)
+		{
+			current.css("background-color", "red");
+			window.setTimeout(toRed, toRedTime, current, newDirection);
+			window.setTimeout(toBlack, toBlackTime, current);
+		}
+		else
+		{
+			newDirection = -direction;
+
+			if(newDirection == -1)
+			{
+				snd.play();
+			}
+			window.setTimeout(toRed, toRedTime+100, prevElement, newDirection);
+		}
+	}
+
+	function toBlack(element)
+	{
+		element.css("background-color", "black");
+	}
+
+
+  </script>
+
+</head>
+<body>
+	<div id="container">
+		<div class="light"></div>
+		<div class="light"></div>
+		<div class="light"></div>
+		<div class="light"></div>
+		<div class="light"></div>
+		<div class="light"></div>
+		<div class="light"></div>
+		<div class="light"></div>
+	</div>
+</body>
+</html>
